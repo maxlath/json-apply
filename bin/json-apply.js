@@ -2,7 +2,7 @@
 import { readFile, writeFile } from 'fs/promises'
 import path from 'node:path'
 import { program } from 'commander'
-import { detectIndentation } from '../lib/utils.js'
+import { detectFormat } from '../lib/utils.js'
 import diff from '../lib/diff.js'
 
 const packageJson = await readFile(new URL('../package.json', import.meta.url))
@@ -62,17 +62,18 @@ if (typeof transformFn !== 'function') {
 for (const jsonFilePath of jsonFilesPaths) {
   const absolutePath = path.resolve(process.cwd(), jsonFilePath)
   const json = await readFile(absolutePath, 'utf8')
-  const indentation = detectIndentation(json)
+  const { indentation, endWithNewlineBreak } = detectFormat(json)
+  const lastCharacter = endWithNewlineBreak ? '\n' : ''
   const obj = JSON.parse(json)
   const transformedObj = await transformFn(obj)
   if (showDiff) {
-    process.stdout.write((diff(obj, transformedObj)) + '\n')
+    process.stdout.write((diff(obj, transformedObj)) + lastCharacter)
   } else {
-    const rejsonified = JSON.stringify(transformedObj, null, indentation)
+    const rejsonified = JSON.stringify(transformedObj, null, indentation)  + lastCharacter
     if (inPlace) {
       await writeFile(absolutePath, rejsonified)
     } else {
-      process.stdout.write((rejsonified) + '\n')
+      process.stdout.write((rejsonified))
     }
   }
 }
