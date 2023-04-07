@@ -65,7 +65,8 @@ for (const jsonFilePath of jsonFilesPaths) {
   const { indentation, endWithNewlineBreak } = detectFormat(json)
   const lastCharacter = endWithNewlineBreak ? '\n' : ''
   const obj = JSON.parse(json)
-  const transformedObj = await transformFn(obj)
+  const metadata = { path: jsonFilePath, absolutePath }
+  const transformedObj = await transformFn(obj, metadata)
   if (showDiff) {
     process.stdout.write((diff(obj, transformedObj)) + lastCharacter)
   } else {
