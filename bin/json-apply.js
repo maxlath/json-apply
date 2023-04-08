@@ -67,14 +67,16 @@ for (const jsonFilePath of jsonFilesPaths) {
   const obj = JSON.parse(json)
   const metadata = { path: jsonFilePath, absolutePath }
   const transformedObj = await transformFn(obj, metadata)
-  if (showDiff) {
-    process.stdout.write((diff(obj, transformedObj)) + lastCharacter)
-  } else {
-    const rejsonified = JSON.stringify(transformedObj, null, indentation)  + lastCharacter
-    if (inPlace) {
-      await writeFile(absolutePath, rejsonified)
+  if (transformedObj) {
+    if (showDiff) {
+      process.stdout.write((diff(obj, transformedObj)) + lastCharacter)
     } else {
-      process.stdout.write((rejsonified))
+      const rejsonified = JSON.stringify(transformedObj, null, indentation)  + lastCharacter
+      if (inPlace) {
+        await writeFile(absolutePath, rejsonified)
+      } else {
+        process.stdout.write((rejsonified))
+      }
     }
   }
 }
