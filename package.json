@@ -1,6 +1,6 @@
 {
   "name": "json-apply",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "A CLI tool to transform JSON files with custom JS functions",
   "main": "bin/json-apply.js",
