@@ -8,13 +8,32 @@ import diff from '../lib/diff.js'
 const packageJson = await readFile(new URL('../package.json', import.meta.url))
 const { version, description } = JSON.parse(packageJson)
 
+const helpText = `
+Output changed file
+$ json-apply some_transform_function.js some_data.json
+
+Preview changes
+$ json-apply some_transform_function.js some_data.json --diff
+
+Directly apply changes to file
+$ json-apply --in-place some_transform_function.js some_data.json
+
+Directly apply changes to several files
+$ json-apply --in-place some_transform_function.js *.json
+
+Use a "foo" function that is not the default module export
+$ json-apply function_collection.js#foo some_data.json
+
+More in the [README.md](https://github.com/maxlath/json-apply)
+`
+
 program
 .description(description)
 .arguments('<js-function-module> <json-files-paths...>')
 .option('-d, --diff', 'Preview the changes between the input and the transformation output')
 .option('-i, --in-place', 'Edit files in place')
 .version(version)
-// .addHelpText('after', helpText)
+.addHelpText('after', helpText)
 
 program.parse(process.argv)
 
