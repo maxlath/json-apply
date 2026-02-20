@@ -39,5 +39,8 @@
   "bugs": {
     "url": "https://github.com/maxlath/json-apply/issues"
   },
-  "homepage": "https://github.com/maxlath/json-apply#readme"
+  "homepage": "https://github.com/maxlath/json-apply#readme",
+  "devDependencies": {
+    "@types/node": "^25.3.0"
+  }
 }
