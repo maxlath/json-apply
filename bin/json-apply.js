@@ -6,7 +6,7 @@ import { detectFormat } from '../lib/utils.js'
 import diff from '../lib/diff.js'
 
 const packageJson = await readFile(new URL('../package.json', import.meta.url))
-const { version, description } = JSON.parse(packageJson)
+const { version, description } = JSON.parse(packageJson.toString())
 
 const helpText = `
 Output changed file
